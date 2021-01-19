@@ -16,10 +16,10 @@ var rootCmd = &cobra.Command{
 		outputPath, err := cmd.Flags().GetString("output")
 		handle(err)
 
-		introDuration, err := cmd.Flags().GetFloat32("introDuration")
+		introDuration, err := cmd.Flags().GetFloat32("intro-duration")
 		handle(err)
 
-		outroDuration, err := cmd.Flags().GetFloat32("outroDuration")
+		outroDuration, err := cmd.Flags().GetFloat32("outro-duration")
 		handle(err)
 
 		// begin
