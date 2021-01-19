@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func trim(inputPath, outputPath string, start, duration float64) (err error) {
+func trim(inputPath, outputPath string, start, duration float32) (err error) {
 	cmd := exec.Command("ffmpeg",
 		"-ss", fmt.Sprintf("%f", start),
 		"-i", inputPath,

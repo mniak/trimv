@@ -16,13 +16,21 @@ var rootCmd = &cobra.Command{
 		outputPath, err := cmd.Flags().GetString("output")
 		handle(err)
 
+		introDuration, err := cmd.Flags().GetFloat32("introDuration")
+		handle(err)
+
+		outroDuration, err := cmd.Flags().GetFloat32("outroDuration")
+		handle(err)
+
+		// begin
+
 		ffprobeResponse, err := ffprobe(inputPath)
 		handle(err)
 
 		duration, err := strconv.ParseFloat(ffprobeResponse.Format.Duration, 32)
 		handle(err)
 
-		err = trim(inputPath, outputPath, INTRO_SIZE, duration-(INTRO_SIZE*2))
+		err = trim(inputPath, outputPath, introDuration, float32(duration)-introDuration-outroDuration)
 		handle(err)
 	},
 }
