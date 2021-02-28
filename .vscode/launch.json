@@ -11,12 +11,9 @@
             "mode": "debug",
             "program": "${workspaceFolder}",
             "args":[
-                "all", "*.mp4",
-                "-o", "trimmed",
-                "-l", "16.2",
-                "-r", "16.2",
-            ],
-            "cwd": "D:/UserProfile/Videos/Downloads/Escalando Ágeis"
+                "-i", "example.mp4",
+                 "-o", "example_trimmed.mp4"
+            ]
         }
     ]
 }
