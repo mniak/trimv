@@ -1,36 +1,38 @@
-package main
+package cmd
 
 import (
 	"strconv"
 
+	"github.com/mniak/trimv/internal"
+	"github.com/mniak/trimv/pkg"
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
+var RootCmd = &cobra.Command{
 	Use: "trimv",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		inputPath, err := cmd.Flags().GetString("input")
-		handle(err)
+		internal.Handle(err)
 
 		outputPath, err := cmd.Flags().GetString("output")
-		handle(err)
+		internal.Handle(err)
 
 		introDuration, err := cmd.Flags().GetFloat32("intro-duration")
-		handle(err)
+		internal.Handle(err)
 
 		outroDuration, err := cmd.Flags().GetFloat32("outro-duration")
-		handle(err)
+		internal.Handle(err)
 
 		// begin
 
-		ffprobeResponse, err := ffprobe(inputPath)
-		handle(err)
+		ffprobeResponse, err := pkg.Ffprobe(inputPath)
+		internal.Handle(err)
 
 		duration, err := strconv.ParseFloat(ffprobeResponse.Format.Duration, 32)
-		handle(err)
+		internal.Handle(err)
 
-		err = trim(inputPath, outputPath, introDuration, float32(duration)-introDuration-outroDuration)
-		handle(err)
+		err = pkg.Trim(inputPath, outputPath, introDuration, float32(duration)-introDuration-outroDuration)
+		internal.Handle(err)
 	},
 }

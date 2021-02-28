@@ -1,11 +1,11 @@
-package main
+package internal
 
 import (
 	"fmt"
 	"os"
 )
 
-func handle(err error) {
+func Handle(err error) {
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(1)

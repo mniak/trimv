@@ -1,19 +1,24 @@
 package main
 
+import (
+	"github.com/mniak/trimv/cmd"
+	"github.com/mniak/trimv/internal"
+)
+
 func init() {
-	rootCmd.Flags().StringP("input", "i", "", "Input file path")
-	rootCmd.MarkFlagRequired("input")
+	cmd.RootCmd.Flags().StringP("input", "i", "", "Input file path")
+	cmd.RootCmd.MarkFlagRequired("input")
 
-	rootCmd.Flags().StringP("output", "o", "", "Output file path")
-	rootCmd.MarkFlagRequired("output")
+	cmd.RootCmd.Flags().StringP("output", "o", "", "Output file path")
+	cmd.RootCmd.MarkFlagRequired("output")
 
-	rootCmd.Flags().Float32("intro-duration", 15, "Specifies the intro duration")
+	cmd.RootCmd.Flags().Float32("intro-duration", 15, "Specifies the intro duration")
 
-	rootCmd.Flags().Float32("outro-duration", 15, "Specifies the outro duration")
+	cmd.RootCmd.Flags().Float32("outro-duration", 15, "Specifies the outro duration")
 }
 
 func main() {
 
-	err := rootCmd.Execute()
-	handle(err)
+	err := cmd.RootCmd.Execute()
+	internal.Handle(err)
 }
