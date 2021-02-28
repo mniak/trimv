@@ -1,4 +1,4 @@
-package main
+package pkg
 
 import (
 	"bytes"
@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func ffprobe(path string) (response FfprobeResponse, err error) {
+func Ffprobe(path string) (response FfprobeResponse, err error) {
 	cmd := exec.Command("ffprobe", "-i", path, "-print_format", "json", "-show_format")
 
 	var buffer bytes.Buffer

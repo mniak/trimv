@@ -1,4 +1,4 @@
-package main
+package pkg
 
 type FfprobeResponse struct {
 	Streams []Stream `json:"streams"`
