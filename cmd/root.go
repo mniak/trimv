@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/mniak/trimv/internal"
 	"github.com/mniak/trimv/pkg"
@@ -9,7 +10,8 @@ import (
 )
 
 var RootCmd = &cobra.Command{
-	Use: "trimv",
+	Use:   "trimv",
+	Short: "Trim video",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		inputPath, err := cmd.Flags().GetString("input")
@@ -18,21 +20,35 @@ var RootCmd = &cobra.Command{
 		outputPath, err := cmd.Flags().GetString("output")
 		internal.Handle(err)
 
-		introDuration, err := cmd.Flags().GetFloat32("intro-duration")
+		introDurationSeconds, err := cmd.Flags().GetFloat32("intro-duration")
 		internal.Handle(err)
+		introDuration := time.Duration(introDurationSeconds * float32(time.Second))
 
-		outroDuration, err := cmd.Flags().GetFloat32("outro-duration")
+		outroDurationSeconds, err := cmd.Flags().GetFloat32("outro-duration")
 		internal.Handle(err)
+		outroDuration := time.Duration(outroDurationSeconds * float32(time.Second))
 
 		// begin
 
 		ffprobeResponse, err := pkg.Ffprobe(inputPath)
 		internal.Handle(err)
 
-		duration, err := strconv.ParseFloat(ffprobeResponse.Format.Duration, 32)
+		durationSeconds, err := strconv.ParseFloat(ffprobeResponse.Format.Duration, 32)
 		internal.Handle(err)
+		duration := time.Duration(durationSeconds * float64(time.Second))
 
-		err = pkg.Trim(inputPath, outputPath, introDuration, float32(duration)-introDuration-outroDuration)
+		err = pkg.Trim(inputPath, outputPath, introDuration, duration-introDuration-outroDuration)
 		internal.Handle(err)
 	},
+}
+
+func init() {
+	RootCmd.Flags().StringP("input", "i", "", "Input file path")
+	RootCmd.MarkFlagRequired("input")
+
+	RootCmd.Flags().StringP("output", "o", "", "Output file path")
+	RootCmd.MarkFlagRequired("output")
+
+	RootCmd.Flags().Float32P("intro-duration", "l", 15, "Specifies the intro duration")
+	RootCmd.Flags().Float32P("outro-duration", "r", 15, "Specifies the outro duration")
 }
