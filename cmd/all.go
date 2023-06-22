@@ -19,7 +19,6 @@ var AllCmd = &cobra.Command{
 	Short: "Trim all videos matching pattern",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-
 		inputPattern := args[0]
 
 		outputFolder, err := cmd.Flags().GetString("output")
@@ -41,7 +40,7 @@ var AllCmd = &cobra.Command{
 		internal.Handle(err)
 
 		if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
-			os.Mkdir(outputFolder, os.ModeDir)
+			os.Mkdir(outputFolder, 0o755)
 		}
 
 		var wg sync.WaitGroup
@@ -60,7 +59,6 @@ var AllCmd = &cobra.Command{
 				outputPath := path.Join(outputFolder, filepath.Base(inputPath))
 				err = pkg.Trim(inputPath, outputPath, introDuration, duration-introDuration-outroDuration)
 				internal.Handle(err)
-
 			}(inputPath)
 		}
 		wg.Wait()
